@@ -53,7 +53,9 @@ Rules:
 export const identifyWaste = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => IdentifyInput.parse(input))
   .handler(async ({ data }) => {
-    const gateway = createLovableAiGatewayProvider(requireLovableApiKey());
+    const gateway = createLovableAiGatewayProvider(requireLovableApiKey(), undefined, {
+      structuredOutputs: true,
+    });
 
     const query = data.item?.trim() ?? "";
     const guidelines = data.imageDataUrl && !query ? GUIDELINES : retrieveGuidelines(query, 6);
@@ -87,6 +89,7 @@ export const identifyWaste = createServerFn({ method: "POST" })
         sources: Array.from(new Set(guidelines.map((g) => g.source))).slice(0, 4),
       } satisfies WasteResult;
     } catch (error) {
+      console.error("identifyWaste failed", error);
       if (NoObjectGeneratedError.isInstance(error)) {
         throw new Error("The assistant could not classify that item. Try rephrasing it.");
       }
