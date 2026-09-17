@@ -14,7 +14,7 @@ Conversational AI — allow users to ask questions such as "Where should I throw
 
 This project was built with [Lovable](https://lovable.dev).
 
-**Live app**: https://wastesort-ai.lovable.app
+**Live app**: https://binwise-ai.lovable.app
 
 ## Build with Lovable
 
